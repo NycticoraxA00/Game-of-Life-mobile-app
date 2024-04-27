@@ -2,15 +2,17 @@ class Act {
     constructor(
       aid,
       actName,
+      actIcon,
       actType,
       cost,
-      health,
+      behavior,
     ) {
       this.aid = aid;
       this.actName = actName;
+      this.actIcon = actIcon;
       this.actType = actType;
       this.cost = cost;
-      this.health = health;
+      this.behavior = behavior;
     }
   }
   

@@ -1,28 +1,41 @@
 import React, { createContext, useEffect, useState } from 'react';
 
 export const LogContext = createContext({
-    log:[],
+    actionLogs:()=>{},
+    statChangeLogs:()=>{},
     detectAction:()=>{},
+    detectStatChange:()=>{},
     clearLogs:()=>{},
 });
 
 const LogContextProvider = ({ children }) => {
-    const [logs, setLogs] = useState([]);
+    const [actionLogs, setActionLogs] = useState([]);
+    const [statChangeLogs, setStatChangeLogs] = useState([]);
 
     const detectAction = (action,object,consequence)=>{
-        const newLogEntry = {
+        const newActionLogEntry = {
             action:action,
             object:object,
             consequence:consequence,
         };
-        setLogs([...logs,newLogEntry]);        
+        setActionLogs([...actionLogs,newActionLogEntry]);        
     };
+    const detectStatChange = (change,object)=>{
+      const newStatChangeLogEntry = {
+          change:change,
+          object:object,
+      };
+      setStatChangeLogs([...statChangeLogs,newStatChangeLogEntry]);        
+  };
     const clearLogs=()=>{
-        setLogs([]);
+      setActionLogs([]);
+      setStatChangeLogs([])
     }
     const value = {
-      log:logs,
+      actionLogs:actionLogs,
+      statChangeLogs:statChangeLogs,
       detectAction:detectAction,
+      detectStatChange:detectStatChange,
       clearLogs:clearLogs,
     };
     return (

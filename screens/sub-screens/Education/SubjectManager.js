@@ -20,7 +20,6 @@ const SubjectManager = ({route}) => {
   const logCtx = useContext(LogContext);
   const handleSubjectEnergyChange=(subject, energy)=>{
     subjectCtx.changeSubjectEnergy(subject,energy);
-    
     statCtx.adjustEnergy(statCtx.energy+subjectCtx.getSubjectEnergy(subject)-energy);
     logCtx.detectAction('Change energy of subject:', subject, energy)
     navigation.goBack();

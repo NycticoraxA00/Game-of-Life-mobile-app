@@ -56,7 +56,7 @@ const styles={
     subjectA:{
         marginLeft:'5%',
         fontSize:18,
-        minWidth:'65%',
+        minWidth:'60%',
     },
     creditA:{
         fontSize:18,

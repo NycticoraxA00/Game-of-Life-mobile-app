@@ -1,25 +1,39 @@
 import { View, Text } from "react-native"
 import Job from "./Job";
+import { useContext } from "react";
+import { StatContext } from "../../store/stat-context";
+import { JOB_INFO } from "../../data/job-data";
+import { COLOR } from "../../util/color";
 
-const CurrentJob=({name,onPress})=>{
+const CurrentJob=({jobType,onPress})=>{
+    const statCtx = useContext(StatContext);
+    let isUnemployed=true;
+
+    const currentJob = statCtx.getJobByJobType(jobType);
+    if (currentJob !== '') {
+        isUnemployed = false;
+    }
     return(
         <View style={styles.container}>
             <Text style={styles.label}>
-                Current {name} Job
+                Current {jobType} Job
             </Text>
             <Job 
-                name={"Job name"}
-                icon={"spinner"}
-                payrate={100}
-                energy={100}
-                onPress={onPress} readOnly={false} isNavigate/>
+                icon={currentJob.jobIcon}
+                name={currentJob.jobName}
+                payrate={currentJob.salary}
+                energy={currentJob.cost}
+                onPress={onPress} 
+                isNavigate 
+                isUnemployed={isUnemployed}/>
         </View>
     )
 }
 const styles={
     container:{
         alignItems:'center',
-        justifyContent:'center'
+        justifyContent:'center',
+
     },
     label:{
         fontSize:24,

@@ -10,6 +10,7 @@ const UserInfo = ()=>{
     const energy = statCtx.energy;
     const health = statCtx.health;
     const money = statCtx.money;
+    const charm = statCtx.charm;
     return (
         <View style = {styles.container}>
             <Text style={styles.nameGender}>William Burner - Male</Text>
@@ -25,6 +26,7 @@ const UserInfo = ()=>{
                     <Text style={[styles.energy, styles.statText]}>Energy: {energy}</Text>
                     <Text style={[styles.health, styles.statText]}>Health: {health}</Text>
                     <Text style={[styles.money, styles.statText]}>Money: {money}</Text>
+                    <Text style={[styles.charm, styles.statText]}>Charm: {charm}</Text>
                 </View>
             </View>
         </View>
@@ -34,8 +36,8 @@ const UserInfo = ()=>{
 const styles = {
     container:{
         height: '22%',
-        backgroundColor:COLOR.grey,
         alignItems:'center',
+        marginBottom:15,
     },
     nameGender:{
         fontSize:24,

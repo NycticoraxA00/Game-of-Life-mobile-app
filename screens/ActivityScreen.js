@@ -5,29 +5,43 @@ import Button from '../components/UI/Button';
 import {useNavigation} from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ActivityChoices from './sub-screens/Activity/ActivityChoices';
+import AvailableEnergy from '../components/UI/AvailableEnergy';
+import CurrentActOptions from './sub-screens/Activity/CurrentActOptions';
 
 const Stack = createNativeStackNavigator();
 const ActivityOverview=()=>{
     const navigation = useNavigation();
-    const toActivityChoices =(header)=>{
-        navigation.navigate('Activity Choices',{header})
+    const toCurrentActOptions =(actType)=>{
+        navigation.navigate('Current Act Options',{actType})
+    }
+    const toActivityChoices =(actType)=>{
+        navigation.navigate('Activity Choices',{actType})
     }
     return (
-        <>
-            <CurrentActivity name={"Socialize"}/>
-            <CurrentActivity name={"Exercise"}/>
-            <CurrentActivity name={"Learning Skill"}/>
+        <View style = {styles.container}>
+            <CurrentActivity 
+                actType={'Socialize'}
+                onPress={()=>toCurrentActOptions('Socialize')}/>
+            <CurrentActivity 
+                actType={'Exercise'}
+                onPress={()=>toCurrentActOptions('Exercise')}/>
+            <CurrentActivity 
+                actType={'Skill'}
+                onPress={()=>toCurrentActOptions('Skill')}/>
+            <AvailableEnergy/>
             <Text style={styles.label}>Activity Choices</Text>
-            <Button 
-                name={'Socialize'}
-                onPress={()=>toActivityChoices('Socialize')}/>
-            <Button 
-                name={'Excercise'}
-                onPress={()=>toActivityChoices('Excercise')}/>
-            <Button 
-                name={'Learn new skill'}
-                onPress={()=>toActivityChoices('Learn new skill')}/>
-        </>
+            <View style={styles.activityChoices}>
+                <Button 
+                    name={'Socialize'}
+                    onPress={()=>toActivityChoices('Socialize')}/>
+                <Button 
+                    name={'Exercise'}
+                    onPress={()=>toActivityChoices('Exercise')}/>
+                <Button 
+                    name={'Learn new skill'}
+                    onPress={()=>toActivityChoices('Skill')}/>
+            </View>
+        </View>
     )
 }
 const ActivityScreen = ()=>{
@@ -40,6 +54,11 @@ const ActivityScreen = ()=>{
                     options={{
                         headerShown:false
                     }}/>
+                <Stack.Screen
+                    name="Current Act Options"
+                    component={CurrentActOptions}
+                    options={{headerShown:false}}
+                />
                 <Stack.Screen
                     name="Activity Choices"
                     component={ActivityChoices}
@@ -59,11 +78,13 @@ const styles = {
     label:{
         textAlign:'center',
         marginHorizontal:40,
-        marginVertical:20,
         fontSize:24,
         borderTopWidth:1,
         borderTopColor:COLOR.darkGrey,
         paddingTop:10,
-    }
+    },
+    activityChoices:{
+        marginHorizontal:'5%',
+    },
 }
 export default ActivityScreen;

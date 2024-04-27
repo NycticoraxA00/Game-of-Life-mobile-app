@@ -12,14 +12,19 @@ const LogInfo = () => {
     if (scrollViewRef.current) {
       scrollViewRef.current.scrollToEnd({ animated: true });
     }
-  }, [logCtx.log]);
+  }, [logCtx.statChangeLogs, logCtx.actionLogs]);
   return (
     <View style={styles.container}>
       <ScrollView>
         <View style={styles.logContainer}>
-          {logCtx.log.map((log,index)=>(
+          {logCtx.actionLogs.map((actionLogs,index)=>(
             <Text style= {styles.logText} key={index}>
-              {log.action} {log.consequence} {log.object}
+              {actionLogs.action} {actionLogs.consequence} {actionLogs.object}
+            </Text>
+          ))}
+          {logCtx.statChangeLogs.map((statChangeLogs,index)=>(
+            <Text style= {styles.logText} key={index}>
+              {statChangeLogs.change} {statChangeLogs.consequence}
             </Text>
           ))}
         </View>

@@ -28,9 +28,38 @@ const LifeProgress = () => {
       }
     }
   }
+  const fullTimeJob = statCtx.getJobByJobType('Full-time');
+const partTimeJob = statCtx.getJobByJobType('Part-time');
+const freelancerJob = statCtx.getJobByJobType('Freelancer');
+
+
   const handleAddWeek = (numb) => {
     statCtx.addWeek(numb); 
-    logCtx.detectAction("Skip week", "weeks", '+' + numb);
+    if (fullTimeJob !== '') {
+      statCtx.earnMoney(fullTimeJob.salary.salary, numb);
+    }
+    if (partTimeJob !== '') {
+      statCtx.earnMoney(partTimeJob.salary, numb);
+    }
+    if (freelancerJob !== '') {
+      statCtx.earnMoney(freelancerJob.salary, 4);
+    }
+    if (numb >=4){
+      statCtx.adjustEnergy(
+        statCtx.energy 
+        + statCtx.getJobByJobType('Freelancer').cost);
+      statCtx.quitJob('Freelancer');
+    }
+    if (numb > statCtx.getActByActType('Skill').behavior){
+      statCtx.adjustEnergy(
+        statCtx.energy 
+        + statCtx.getActByActType('Skill').cost);
+      statCtx.quitAct('Skill');
+    }
+    statCtx.gainActBenefit();
+    statCtx.gainSkill(numb);
+    logCtx.detectAction('Skip week', '+' + numb + ' weeks');
+    // logCtx.detectStatChange('You learned the skill: '+ statCtx.skills[statCtx.skills.length-1])
     updateSubjectCredits(numb);
   };
 

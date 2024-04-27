@@ -8,6 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useContext } from "react";
 import { StatContext } from "../store/stat-context";
 import { SubjectContext } from "../store/subject-context";
+import AvailableEnergy from "../components/UI/AvailableEnergy";
 
 const Stack = createNativeStackNavigator();
 const EducationOverview = () => {
@@ -31,10 +32,7 @@ const EducationOverview = () => {
         <Text style={styles.text}>You have finished your education</Text>
       ) : (
         <>
-          <View style={styles.availableEnergyContainer}>
-            <Text style={styles.availableEnergy}>Available Weekly Energy:</Text>
-            <Text style={styles.availableEnergyAmount}>{statCtx.energy}</Text>
-          </View>
+          <AvailableEnergy/>
           <Text style={styles.text}>Current Life Stage Education stats</Text>
         </>
       )}
@@ -122,7 +120,7 @@ const styles = {
   text: {
     textAlign: "center",
     marginHorizontal: 30,
-    marginVertical: 20,
+    marginBottom: 20,
     fontSize: 18,
     borderBottomWidth: 1,
     borderBottomColor: COLOR.darkGrey,

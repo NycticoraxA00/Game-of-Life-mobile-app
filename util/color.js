@@ -9,4 +9,7 @@ export const COLOR ={
     darkBlue:'',
     green:'#14AE5C',
     gold:'#f29122',
+    red:'#e01010',
+    rose:'#c20e0e',
+    darkRed:'#940a0a'
 }

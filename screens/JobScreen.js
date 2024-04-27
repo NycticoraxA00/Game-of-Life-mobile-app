@@ -7,10 +7,14 @@ import {useNavigation} from '@react-navigation/native'
 import CurrentJobOptions from './sub-screens/Job/CurrentJobOptions';
 import JobOpportunity from './sub-screens/Job/JobOpportunity';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useContext } from 'react';
+import { StatContext } from '../store/stat-context';
+import AvailableEnergy from '../components/UI/AvailableEnergy';
 
 
 const Stack = createNativeStackNavigator();
 const JobOverview=()=>{
+    const statCtx = useContext(StatContext);
     const navigation = useNavigation();
     const toCurrentJobOptions =(jobType)=>{
         navigation.navigate('Current Job Options',{jobType})
@@ -21,21 +25,27 @@ const JobOverview=()=>{
     return (
         <View style = {styles.container}>
             <CurrentJob 
-                name={'Full-time'}
+                jobType={'Part-time'}
+                onPress={()=>toCurrentJobOptions('Part-time')}/>
+            <CurrentJob 
+                jobType={'Full-time'}
                 onPress={()=>toCurrentJobOptions('Full-time')}/>
             <CurrentJob 
-                name={'Part-time'}
-                onPress={()=>toCurrentJobOptions('Part-time')}/>
+                jobType={'Freelancer'}
+                onPress={()=>toCurrentJobOptions('Freelancer')}/>
+            <AvailableEnergy/>
             <Text style={styles.label}>Job Opportunity</Text>
-            <Button 
-                name={'Part-time Job'}
-                onPress={()=>toJobOpportunity('Part-time Job')}/>
-            <Button 
-                name={'Freelancer'}
-                onPress={()=>toJobOpportunity('Freelancer')}/>
-            <Button 
-                name={'Full-time Job'}
-                onPress={()=>toJobOpportunity('Full-time Job')}/>
+            <View style={styles.jobOpportunity}>
+                <Button 
+                    name={'Part-time Job'}
+                    onPress={()=>toJobOpportunity('Part-time')}/>
+                <Button 
+                    name={'Full-time Job'}
+                    onPress={()=>toJobOpportunity('Full-time')}/>
+                <Button 
+                    name={'Freelancer'}
+                    onPress={()=>toJobOpportunity('Freelancer')}/>
+            </View>
         </View>
     )
 }
@@ -73,11 +83,13 @@ const styles = {
     label:{
         textAlign:'center',
         marginHorizontal:40,
-        marginVertical:20,
         fontSize:24,
         borderTopWidth:1,
         borderTopColor:COLOR.darkGrey,
         paddingTop:10,
-    }
+    },
+    jobOpportunity:{
+        marginHorizontal:'5%',
+    },
 }
 export default JobScreen;

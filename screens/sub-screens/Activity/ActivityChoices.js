@@ -4,30 +4,85 @@ import { useNavigation } from '@react-navigation/native';
 import Button from "../../../components/UI/Button";
 import { COLOR } from "../../../util/color";
 import IconButton from "../../../components/UI/IconButton";
+import { ACT_INFO } from "../../../data/act-data";
+import React, { useContext } from "react";
+import { StatContext } from "../../../store/stat-context";
+import { LogContext } from "../../../store/log-context";
+import AvailableEnergy from "../../../components/UI/AvailableEnergy";
 
 const ActivityChoices=({route})=>{
     const navigation = useNavigation();
-    const {header} = route.params;
+    const statCtx = useContext(StatContext);
+    const logCtx = useContext(LogContext);
+    const {actType} = route.params;
+    const joinActivity = (actId) => {
+        const currentAct = statCtx.getActByActType(actType);
+        const newAct = statCtx.getActById(actId);
+        
+          if (currentAct === '') {
+            statCtx.adjustEnergy(statCtx.energy - newAct.cost);
+          } else {
+            statCtx.adjustEnergy(statCtx.energy + currentAct.cost - newAct.cost);
+          }
+          statCtx.changeAct(actId, actType);
+          if (actType=='Skill'){
+            
+            statCtx.beginLearnignCurrentSkillWeek = statCtx.week;
+            logCtx.detectAction('Your learning skill is', newAct.actName);
+          } else {
+            logCtx.detectAction('Your '+actType+' is', newAct.actName);
+          }
+          navigation.goBack();
+      };
     const goBack = () => {
       navigation.goBack();
     }
     return(
         <View style={styles.container}>
         <View style={styles.header}>
-            <Text style={styles.name}>{header}</Text>
-            <View style={styles.availableEnergyContainer}>
-                <Text style={styles.availableEnergy}>Available Weekly Energy:</Text>
-                <Text style={styles.availableEnergyAmount}>100</Text>
+            {actType === 'Skill' ? (
+            <Text style={styles.name}>Learn new Skill</Text>
+            ) : (
+                <Text style={styles.name}>{actType}</Text>
+            )}
+            <AvailableEnergy/>
+            
+            {actType === 'Skill' && (
+              
+            <View style={styles.outerSkillsContainer}>
+              <View style={styles.innerSkillsContainer}>
+              <Text style={styles.skillTitle}>Learned skills: {statCtx.skills.length == 0?'No skill':''}</Text>
+
+              <View style = {styles.skillContainer}>
+                {statCtx.skills.map((skill, index) => (
+                  <Text key={index} style={styles.skill}>
+                    {skill}
+                  </Text>
+                ))}
+              </View>
+              </View>
             </View>
+        )}
         </View>
         <View style={styles.body}>
-            <Activity icon={"star-o"} name={"Join hobby club"} benefit={""} energy={100}/>
-            <View style={styles.space}/>
-            <Activity icon={"home"} name={"Spend time with family"} benefit={""} energy={100}/>
-            <View style={styles.space}/>
-            <Activity icon={"comments-o"} name={"Hang out with friend"} benefit={""} energy={100}/>
-            <View style={styles.space}/>
-            <Activity icon={"plus"} name={"Join a charity organiztion"} benefit={""} energy={100}/>
+        {(actType === 'Skill' && statCtx.stage < 3) ? (
+          <Text style={styles.warningText}>You need to finish your education first</Text>
+        ) : (
+          ACT_INFO.filter((act) => act.actType === actType && !statCtx.skills.includes(act.actName))
+          .map((act) => (
+            <React.Fragment key={act.aid}>
+              <Activity 
+                icon={act.actIcon} 
+                name={act.actName} 
+                behavior={act.behavior} 
+                energy={act.cost}
+                actType={act.actType}
+                onPress={() => joinActivity(act.aid)}
+              />
+              <View style={styles.space} />
+            </React.Fragment>
+          ))
+        )}
         </View>
         <View style={styles.footer}>
             <IconButton 
@@ -50,6 +105,22 @@ const styles={
         alignItems:'center',
         justifyContent:'center'
     },
+    outerSkillsContainer:{
+      alignItems: "center",
+      width:400,
+    },
+    innerSkillsContainer:{
+      alignItems: "center",
+      justifyContent: "center",
+      flexDirection:'row',
+    },
+    skillTitle:{
+      fontSize:18,
+    },
+    skill:{
+      fontSize:18,
+      color:COLOR.gold,
+    },
     space:{
         height:30,
     },
@@ -65,21 +136,6 @@ const styles={
         padding:10,
         marginBottom:20,
     },
-    availableEnergyContainer:{
-        // backgroundColor:COLOR.white,
-        borderRadius:20,
-        minWidth:'60%',
-        flexDirection:'row',
-    },
-    availableEnergy:{
-        minWidth:'52%',
-    },
-    availableEnergyAmount:{
-        textAlign:'center',
-        color:COLOR.blue,
-        fontWeight:'bold',
-        fontSize:15
-    },
     subText:{
         marginVertical:20,
         marginHorizontal:20,
@@ -90,6 +146,12 @@ const styles={
         alignItems:'center',
         justifyContent:'center',
 
-    }
+    },
+    warningText:{
+        fontSize:18,
+        color:COLOR.red,
+        // backgroundColor:COLOR.white,
+        marginBottom:20,
+      }
 }
 export default ActivityChoices;
