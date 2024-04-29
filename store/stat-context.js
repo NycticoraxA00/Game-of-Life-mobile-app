@@ -25,6 +25,7 @@ export const StatContext = createContext({
     fullTimeJob:'jid',
     freeLancer:'jid',
   }],
+  canWorkAbroad:false,
   acts:[{
     socialize:'aid',
     exercise:'aid',
@@ -53,7 +54,9 @@ export const StatContext = createContext({
   getActById:()=>{},
   gainActBenefit:()=>{},
   gainSkill:()=>{},
-  setBeginLearnignCurrentSkillWeek:()=>{}
+  setBeginLearnignCurrentSkillWeek:()=>{},
+  drainHealth:()=>{},
+  enableCanWorkAbroad:()=>{}
 });
 
 const StatContextProvider = ({ children }) => {
@@ -65,6 +68,7 @@ const StatContextProvider = ({ children }) => {
     const [charm, setCharm] = useState(0);
     const [skills, setSkills] = useState([]);
     const [beginLearnignCurrentSkillWeek,setbeginLearnignCurrentSkillWeek] = useState(0);
+    const [canWorkAbroad, setCanWorkAbroad] = useState(false);
     const [subjectCredits, setSubjectCredits] = useState({
       math: 0,
       science: 0,
@@ -83,6 +87,9 @@ const StatContextProvider = ({ children }) => {
       exercise:'',
       skillLearning:'',
     });
+    const enableCanWorkAbroad = ()=>{
+      setCanWorkAbroad(true);
+    }
     const setBeginLearnignCurrentSkillWeek=()=>{
       setBeginLearnignCurrentSkillWeek(week);
     }
@@ -263,6 +270,9 @@ const StatContextProvider = ({ children }) => {
     const adjustEnergy = (energy)=>{
       setEnergy(energy);
     }
+    const drainHealth = (health) => {
+      setHealth((prevHealth) => prevHealth - health);
+    };
     const endLife = ()=>{
       addWeek(health);
       setHealth(0);
@@ -329,6 +339,9 @@ const StatContextProvider = ({ children }) => {
       gainActBenefit:gainActBenefit,
       gainSkill:gainSkill,
       setBeginLearnignCurrentSkillWeek:setBeginLearnignCurrentSkillWeek,
+      drainHealth:drainHealth,
+      canWorkAbroad:canWorkAbroad,
+      enableCanWorkAbroad:enableCanWorkAbroad,
     };
     return (
       <StatContext.Provider value={value}>

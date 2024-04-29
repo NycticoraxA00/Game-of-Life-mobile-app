@@ -60,5 +60,10 @@ export const ACT_INFO = [
     'a12', 'C# Winform', 'code',
     'Skill', 20,
     50
-  )
+  ),
+  new Act(
+    'a13', 'Join malicious organization', 'comments',
+    'Socialize', 300,
+    10
+  ),
 ];

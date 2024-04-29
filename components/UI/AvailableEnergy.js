@@ -13,7 +13,6 @@ const AvailableEnergy = ()=>{
 }
 const styles={
     availableEnergyContainer: {
-        // backgroundColor:COLOR.white,
         borderRadius: 20,
         minWidth: "60%",
         flexDirection: "row",
@@ -23,12 +22,11 @@ const styles={
       },
       availableEnergy: {
         minWidth: "52%",
-        fontWeight:24,
       },
       availableEnergyAmount: {
         textAlign: "center",
         color: COLOR.blue,
-        fontWeight: "bold",
+        fontWeight: 'bold',
         fontSize: 15,
       },
 }

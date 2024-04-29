@@ -45,14 +45,20 @@ const JobOpportunity = ({ route }) => {
     );
   } else {
     content = JOB_INFO.filter((job) => job.jobType === jobType).map((job) => (
-      <React.Fragment key={job.jid}>
+      <React.Fragment key={job.jid}>        
         <Job
           icon={job.jobIcon}
           name={job.jobName}
           payrate={job.salary}
           energy={job.cost}
           onPress={() => applyJob(job.jid)}
-          isUnavailable={jobType=='Freelancer' && !statCtx.skills.includes(job.jobName)}
+          isUnavailable={
+            jobType=='Freelancer' && 
+              !statCtx.skills.includes(job.jobName) ||
+            jobType === 'Full-time' && 
+              !(statCtx.careerPath === job.jobName || statCtx.canWorkAbroad && statCtx.careerPath+ ' (globally)' === job.jobName )
+              
+          }
         />
         <View style={styles.space} />
       </React.Fragment>
@@ -86,9 +92,11 @@ const JobOpportunity = ({ route }) => {
             </View>
         )}
       </View>
-      <View style={styles.body}>
-        {content}
-      </View>
+        <View style={styles.body}>
+        <ScrollView>
+          {content}
+        </ScrollView>
+        </View>
       <View style={styles.footer}>
         <IconButton
           icon="arrow-circle-left"
@@ -102,15 +110,18 @@ const JobOpportunity = ({ route }) => {
 };
 
 const styles = {
-  container: {},
+  container: {
+    flex:1,
+
+  },
   header: {
     alignItems: "center",
     justifyContent: "center",
   },
   body: {
-    marginTop: 30,
     alignItems: "center",
     justifyContent: "center",
+    flex:1,
   },
   outerSkillsContainer:{
     alignItems: "center",
@@ -129,7 +140,7 @@ const styles = {
     color:COLOR.gold,
   },
   space: {
-    height: 30,
+    height: 20,
   },
   name: {
     marginTop: 80,

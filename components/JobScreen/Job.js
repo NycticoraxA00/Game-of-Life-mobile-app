@@ -1,6 +1,7 @@
 import { View,Text, TouchableOpacity } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome'; // Import the icon library
 import { COLOR } from "../../util/color";
+import { color } from "react-native-elements/dist/helpers";
 
 const Job = ({
     icon,
@@ -20,20 +21,32 @@ const Job = ({
         </View>
       );
     } else {
-      const containerStyle = isUnavailable ? { ...styles.container, borderColor: COLOR.darkRed } : styles.container;
+      let iconColor;
+      let iconName;
+      let nameStyle;
+      if (isUnavailable){
+        nameStyle=styles.nameU;
+        iconName='star-o'
+        // iconColor = COLOR.rose;
+      } else {
+        nameStyle=styles.nameA;
+        iconName='star';
+        // iconColor = COLOR.blue;
+      }
+      
       const activeOpacity = (readOnly || isUnavailable) ? 1 : 0.2;
   
       return (
         <TouchableOpacity
           activeOpacity={activeOpacity}
-          style={containerStyle}
+          style={styles.container}
           onPress={!isUnavailable?onPress:null}
         >
           <View style={styles.iconContainer}>
-            <Icon style={styles.icon} name={icon} size={30} color={COLOR.black} />
+            <Icon style={styles.icon} name={iconName} size={30} color={iconColor} />
           </View>
           <View style={styles.descriptionContainer}>
-            <Text style={styles.name}>{name}</Text>
+            <Text style={nameStyle}>{name}</Text>
             <View style={styles.description}>
               <Text style={styles.payrate}>{payrate} $/week</Text>
               <Text style={styles.cost}>{energy} energy/week</Text>
@@ -56,7 +69,14 @@ const styles={
         borderRadius:20,
         minWidth:'80%',
         minHeight:'7%',
-
+    },
+    nameA:{
+      fontSize:18,
+      color:COLOR.blue
+    },
+    nameU:{ 
+      fontSize:18,
+      color:COLOR.red,
     },
     iconContainer:{
         minWidth:50,

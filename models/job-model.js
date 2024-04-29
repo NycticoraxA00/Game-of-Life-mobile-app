@@ -6,6 +6,7 @@ class Job {
       jobType,
       cost,
       salary,
+      isWorkGlobally
     ) {
       this.jid = jid;
       this.jobName = jobName;
@@ -13,6 +14,7 @@ class Job {
       this.jobType = jobType;
       this.cost = cost;
       this.salary = salary;
+      this.isWorkGlobally = isWorkGlobally;
     }
   }
   

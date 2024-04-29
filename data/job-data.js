@@ -37,4 +37,19 @@ export const JOB_INFO = [
   new Job(
     'j13', 'C# Winform','code',
     'Freelancer', 30, 1000),
+  new Job(
+    'j14', 'Software Engineer (globally)','star',
+    'Full-time', 40, 3600, true),
+  new Job(
+    'j15', 'Data Analyst (globally)','star',
+    'Full-time', 40, 3600, true),
+  new Job(
+    'j16', 'System Administrator (globally)','star',
+    'Full-time', 40, 3600, true),
+  new Job(
+    'j17', 'Project Manager (globally)','star',
+    'Full-time', 40, 3600, true),
+  new Job(
+    'j18', 'UX/UI Designer (globally)','star',
+    'Full-time', 40, 3600, true),
 ];

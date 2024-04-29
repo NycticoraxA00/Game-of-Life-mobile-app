@@ -40,12 +40,10 @@ const LifeProgress = ({endGame}) => {
     if (partTimeJob !== '') {
       statCtx.earnMoney(partTimeJob.salary, numb);
       logCtx.addNewStatChangeLog('You earn '+(partTimeJob.salary*numb)+' from your current Part-time Job')
-
     }
     if (freelancerJob !== '') {
       statCtx.earnMoney(freelancerJob.salary, 4);
       logCtx.addNewStatChangeLog('You earn '+(freelancerJob.salary*4)+' from your current Freelancer Job')
-
     }
     if (numb >=4 && statCtx.getJobByJobType('Freelancer')){
       statCtx.adjustEnergy(
@@ -61,6 +59,27 @@ const LifeProgress = ({endGame}) => {
       logCtx.addNewStatChangeLog('You finished learning ',statCtx.getActByActType('Skill').actName)
       statCtx.quitAct('Skill');
     }
+    if(statCtx.stage==2 && statCtx.week+numb>=625){
+      logCtx.addNewStatChangeLog('You have finished education')
+      statCtx.adjustEnergy(
+        statCtx.energy+ 
+        subjectCtx.getSubjectEnergy("math")+
+        subjectCtx.getSubjectEnergy("science")+
+        subjectCtx.getSubjectEnergy("social")+
+        subjectCtx.getSubjectEnergy("language")+
+        subjectCtx.getSubjectEnergy("art")
+      )
+      if(statCtx.getSubjectCredits("language")+ subjectCtx.getSubjectEnergy("language")*numb>=6000){
+        statCtx.enableCanWorkAbroad();
+        logCtx.addNewStatChangeLog('You has been qualfied to work abroad')}
+    }
+
+    if(statCtx.energy<0){
+      const healthDrained = (statCtx.energy*-1)*numb/100;
+      console.log(healthDrained);
+      statCtx.drainHealth(healthDrained);
+    }
+    
     statCtx.gainActBenefit();
     statCtx.gainSkill(numb);
     logCtx.detectAction('Skip week', '+' + numb + ' weeks');
@@ -85,7 +104,7 @@ const LifeProgress = ({endGame}) => {
         return { newStage: 4, totalWeekRange: 1 };
       }
     };
-
+    
     const { newStage, totalWeekRange } = calculateStage();
     if (currentStage !== newStage) {
       statCtx.upStage(newStage);
@@ -141,7 +160,6 @@ const LifeProgress = ({endGame}) => {
         break;
     }
     handleAddWeek(weekToSkip);
-    console.log(statCtx.stage);
     logCtx.detectAction("Skip to stage", currentStage + 1);
   };
 

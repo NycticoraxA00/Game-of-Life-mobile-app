@@ -18,9 +18,9 @@ const Activity = ({
     const statCtx = useContext(StatContext);
     let behaviorText;
     if (actType === 'Exercise') {
-        behaviorText = '+' + behavior +' charm';
+        behaviorText = '+' + behavior +' health';
     } else if (actType === 'Socialize') {
-        behaviorText = '+ ' + behavior +' health';
+        behaviorText = '+ ' + behavior +' charm';
     } else if (actType === 'Skill') {
         behaviorText = behavior +' weeks';
     } 
