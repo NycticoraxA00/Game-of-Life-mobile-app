@@ -6,9 +6,10 @@ export const COLOR ={
     darkGrey:'#757575',
     lightBlue:'',
     blue:'#0D99FF',
-    darkBlue:'',
+    darkBlue:'#4267b8',
     green:'#14AE5C',
     gold:'#f29122',
+    orange:'#de713e',
     red:'#e01010',
     rose:'#c20e0e',
     darkRed:'#940a0a'

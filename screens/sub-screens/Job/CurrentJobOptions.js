@@ -21,6 +21,7 @@ const CurrentJobOptions =({route})=>{
             + currentJob.cost);
         statCtx.quitJob(jobType);
         logCtx.detectAction('You quit your current '+jobType+' Job');
+        
         navigation.goBack();
     }
     const goBack = () => {

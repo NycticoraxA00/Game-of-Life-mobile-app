@@ -1,42 +1,36 @@
 import React, { createContext, useEffect, useState } from 'react';
 
 export const LogContext = createContext({
-    actionLogs:()=>{},
-    statChangeLogs:()=>{},
+    actionLogs:[],
+    statsChangeLogs:[],
     detectAction:()=>{},
-    detectStatChange:()=>{},
     clearLogs:()=>{},
+    addNewStatChangeLog:()=>{},
 });
 
 const LogContextProvider = ({ children }) => {
     const [actionLogs, setActionLogs] = useState([]);
-    const [statChangeLogs, setStatChangeLogs] = useState([]);
-
-    const detectAction = (action,object,consequence)=>{
-        const newActionLogEntry = {
-            action:action,
-            object:object,
-            consequence:consequence,
-        };
-        setActionLogs([...actionLogs,newActionLogEntry]);        
-    };
-    const detectStatChange = (change,object)=>{
-      const newStatChangeLogEntry = {
-          change:change,
+    const [statsChangeLogs, setStatChangeLogs] = useState([]);
+    const detectAction = (action,object)=>{
+      const newActionLogEntry = {
+          action:action,
           object:object,
       };
-      setStatChangeLogs([...statChangeLogs,newStatChangeLogEntry]);        
-  };
+      setActionLogs([...actionLogs,newActionLogEntry]);        
+    };
+    const addNewStatChangeLog = (change, object) => {
+      setStatChangeLogs((prevLogs) => [...prevLogs, { change, object }]);
+    };
     const clearLogs=()=>{
       setActionLogs([]);
-      setStatChangeLogs([])
+      setStatChangeLogs([]);
     }
     const value = {
       actionLogs:actionLogs,
-      statChangeLogs:statChangeLogs,
+      statsChangeLogs:statsChangeLogs,
       detectAction:detectAction,
-      detectStatChange:detectStatChange,
       clearLogs:clearLogs,
+      addNewStatChangeLog:addNewStatChangeLog
     };
     return (
       <LogContext.Provider value={value}>

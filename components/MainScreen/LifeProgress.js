@@ -7,7 +7,7 @@ import { StatContext } from "../../store/stat-context";
 import { LogContext } from "../../store/log-context";
 import { SubjectContext } from "../../store/subject-context";
 
-const LifeProgress = () => {
+const LifeProgress = ({endGame}) => {
   const statCtx = useContext(StatContext);
   const logCtx = useContext(LogContext);
   const subjectCtx = useContext(SubjectContext);
@@ -29,37 +29,44 @@ const LifeProgress = () => {
     }
   }
   const fullTimeJob = statCtx.getJobByJobType('Full-time');
-const partTimeJob = statCtx.getJobByJobType('Part-time');
-const freelancerJob = statCtx.getJobByJobType('Freelancer');
-
-
+  const partTimeJob = statCtx.getJobByJobType('Part-time');
+  const freelancerJob = statCtx.getJobByJobType('Freelancer');
   const handleAddWeek = (numb) => {
     statCtx.addWeek(numb); 
     if (fullTimeJob !== '') {
-      statCtx.earnMoney(fullTimeJob.salary.salary, numb);
+      statCtx.earnMoney(fullTimeJob.salary, numb);
+      logCtx.addNewStatChangeLog('You earn '+(fullTimeJob.salary*numb)+' from your current Full-time Job')
     }
     if (partTimeJob !== '') {
       statCtx.earnMoney(partTimeJob.salary, numb);
+      logCtx.addNewStatChangeLog('You earn '+(partTimeJob.salary*numb)+' from your current Part-time Job')
+
     }
     if (freelancerJob !== '') {
       statCtx.earnMoney(freelancerJob.salary, 4);
+      logCtx.addNewStatChangeLog('You earn '+(freelancerJob.salary*4)+' from your current Freelancer Job')
+
     }
-    if (numb >=4){
+    if (numb >=4 && statCtx.getJobByJobType('Freelancer')){
       statCtx.adjustEnergy(
         statCtx.energy 
         + statCtx.getJobByJobType('Freelancer').cost);
+        logCtx.addNewStatChangeLog('You completed '+statCtx.getJobByJobType('Freelancer').jobName+' freelancer job')
       statCtx.quitJob('Freelancer');
     }
-    if (numb > statCtx.getActByActType('Skill').behavior){
+    if (numb > statCtx.getActByActType('Skill').behavior && statCtx.getActByActType('Skill')){
       statCtx.adjustEnergy(
         statCtx.energy 
         + statCtx.getActByActType('Skill').cost);
+      logCtx.addNewStatChangeLog('You finished learning ',statCtx.getActByActType('Skill').actName)
       statCtx.quitAct('Skill');
     }
     statCtx.gainActBenefit();
     statCtx.gainSkill(numb);
     logCtx.detectAction('Skip week', '+' + numb + ' weeks');
-    // logCtx.detectStatChange('You learned the skill: '+ statCtx.skills[statCtx.skills.length-1])
+    logCtx.addNewStatChangeLog(
+      'Your current age is: ' + 
+      (Math.floor((statCtx.week + numb + 240) / 48)));  
     updateSubjectCredits(numb);
   };
 
@@ -88,14 +95,15 @@ const freelancerJob = statCtx.getJobByJobType('Freelancer');
     if (newStage === 4) {
       newProgress = 1;
       setButtonText("End Life");
+      setCurrentStageTotalWeek(``);
     } else {
       newProgress = totalWeek / totalWeekRange;
       setButtonText("Skip Stage");
+      setCurrentStageTotalWeek(`/ ${totalWeekRange}`);
     }
 
     setProgress(newProgress);
     setStageText(getStageText(newStage));
-    setCurrentStageTotalWeek(`/ ${totalWeekRange}`);
   }, [totalWeek, currentStage]);
 
   const getStageText = (stage) => {
@@ -114,33 +122,27 @@ const freelancerJob = statCtx.getJobByJobType('Freelancer');
   };
 
   const handleSkipStage = () => {
-    if (currentStage === 4) {
-      Alert.alert("Are you sure? This will end your life.", "", [
-        {
-          text: "Cancel",
-          style: "cancel",
-        },
-        { text: "End Life", onPress: () => statCtx.endLife() },
-      ]);
-    } else {
-      let weekToSkip;
-      switch (currentStage) {
-        case 1:
-          weekToSkip = 313 - totalWeek;
-          break;
-        case 2:
-          weekToSkip = 625 - totalWeek;
-          break;
-        case 3:
-          weekToSkip = 2593 - totalWeek;
-          break;
-        default:
-          break;
-      }
-      statCtx.addWeek(weekToSkip);
-      updateSubjectCredits(weekToSkip);
-      logCtx.detectAction("Skip to stage", "", currentStage + 1);
+    let weekToSkip;
+    switch (currentStage) {
+      case 1:
+        weekToSkip = 313 - totalWeek;
+        break;
+      case 2:
+        weekToSkip = 625 - totalWeek;
+        break;
+      case 3:
+        weekToSkip = 2640 - totalWeek;
+        break;
+      case 4:
+        weekToSkip = statCtx.health*10;
+        endGame();
+        break;
+      default:
+        break;
     }
+    handleAddWeek(weekToSkip);
+    console.log(statCtx.stage);
+    logCtx.detectAction("Skip to stage", currentStage + 1);
   };
 
   return (

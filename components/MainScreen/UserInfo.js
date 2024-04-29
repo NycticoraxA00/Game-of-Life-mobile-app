@@ -63,7 +63,6 @@ const styles = {
         backgroundColor:COLOR.white,
         borderRadius:10,
         marginTop:3,
-        paddingRight:100,
         paddingLeft:15,
     }
 }

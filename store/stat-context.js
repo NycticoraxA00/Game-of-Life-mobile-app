@@ -4,6 +4,7 @@ import { ACT_INFO } from '../data/act-data';
 
 export const StatContext = createContext({
   week:0,
+  age:0,
   stage:1,
   health:0,
   energy:0,
@@ -60,7 +61,7 @@ const StatContextProvider = ({ children }) => {
     const [stage, setStage] = useState(1);
     const [health, setHealth] = useState(100);
     const [energy, setEnergy] = useState(100);
-    const [money, setMoney] = useState(0);
+    const [money, setMoney] = useState(900000000000000);
     const [charm, setCharm] = useState(0);
     const [skills, setSkills] = useState([]);
     const [beginLearnignCurrentSkillWeek,setbeginLearnignCurrentSkillWeek] = useState(0);
@@ -295,6 +296,7 @@ const StatContextProvider = ({ children }) => {
     }
     const value = {
       week:week,
+      age:0,
       stage:stage,
       health:health,
       energy:energy,

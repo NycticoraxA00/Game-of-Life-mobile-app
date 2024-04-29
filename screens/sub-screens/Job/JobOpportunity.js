@@ -27,7 +27,7 @@ const JobOpportunity = ({ route }) => {
       statCtx.adjustEnergy(statCtx.energy + currentJob.cost - newJob.cost);
     }
     statCtx.changeJob(jobId, jobType);
-    logCtx.detectAction('Your '+jobType+' job is', newJob.jobName);
+    logCtx.detectAction('You apply for the '+jobType+' job: ', newJob.jobName);
 
     navigation.goBack();
   };

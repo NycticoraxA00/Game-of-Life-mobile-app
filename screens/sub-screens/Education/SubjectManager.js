@@ -21,7 +21,8 @@ const SubjectManager = ({route}) => {
   const handleSubjectEnergyChange=(subject, energy)=>{
     subjectCtx.changeSubjectEnergy(subject,energy);
     statCtx.adjustEnergy(statCtx.energy+subjectCtx.getSubjectEnergy(subject)-energy);
-    logCtx.detectAction('Change energy of subject:', subject, energy)
+    logCtx.detectAction('You spend '+ energy +' energy weekly for subject:', subject);
+    logCtx.addNewStatChangeLog('Current energy: '+(statCtx.energy+subjectCtx.getSubjectEnergy(subject)-energy));
     navigation.goBack();
   }
   return (

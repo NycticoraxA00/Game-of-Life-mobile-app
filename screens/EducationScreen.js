@@ -18,7 +18,6 @@ const EducationOverview = () => {
   };
   const statCtx = useContext(StatContext);
   const currentStage = statCtx.stage;
-  const subjectCtx = useContext(SubjectContext);
   let isActive;
   if (currentStage >= 3){
     isActive = false;
@@ -29,7 +28,15 @@ const EducationOverview = () => {
     <>
       <EducationInfo />
       {currentStage >= 3 ? (
-        <Text style={styles.text}>You have finished your education</Text>
+        <View style={styles.containerA}>
+          {statCtx.stage >=3 && 
+            <View style={styles.careerContainer}>
+              <Text style={styles.careerText}>Your career path: </Text>
+              <Text style={styles.career}>{statCtx.careerPath}</Text>
+            </View>
+          }
+          <Text style={styles.textA}>You have finished your education</Text>
+        </View>
       ) : (
         <>
           <AvailableEnergy/>
@@ -101,6 +108,16 @@ const styles = {
     flex: 1,
     backgroundColor: COLOR.grey,
   },
+  containerA: {
+    justifyContent:'center',
+    alignItems:'center',
+    marginBottom:10,
+    borderBottomWidth: 1,
+    borderBottomColor: COLOR.darkGrey,
+    marginHorizontal: 40,
+    paddingBottom:20,
+    marginBottom:30,
+  },
   availableEnergyContainer: {
     marginHorizontal: "20%",
     marginTop: 20,
@@ -126,8 +143,23 @@ const styles = {
     borderBottomColor: COLOR.darkGrey,
     paddingBottom: 20,
   },
+  textA: {
+    textAlign: "center",
+    fontSize: 18,
+  },
   subjectContainer: {
     marginHorizontal: 30,
+  },
+  careerContainer:{
+    flexDirection:'row',
+    marginVertical:20,
+  },
+  careerText:{
+    fontSize:20,
+  },
+  career:{
+    fontSize:20,
+    color:COLOR.gold,
   },
 };
 export default EducationScreen;

@@ -28,9 +28,9 @@ const ActivityChoices=({route})=>{
           if (actType=='Skill'){
             
             statCtx.beginLearnignCurrentSkillWeek = statCtx.week;
-            logCtx.detectAction('Your learning skill is', newAct.actName);
+            logCtx.detectAction('Your choose to learn the skill: ', newAct.actName);
           } else {
-            logCtx.detectAction('Your '+actType+' is', newAct.actName);
+            logCtx.detectAction('You join '+newAct.actName+' in',actType );
           }
           navigation.goBack();
       };

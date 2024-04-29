@@ -10,32 +10,44 @@ import { AuthContext } from "../store/auth-context";
 import { StatContext } from "../store/stat-context";
 
 import CareerSelection from "../components/PopupMessage/CareerSelection";
+import EndGame from "../components/PopupMessage/EndGame";
 
 const MainScreen = () => {
   const statCtx = useContext(StatContext);
-  const [overlayVisible, setOverlayVisible] = useState(false);
+  const [selectCareerOverlayVisible, setSelectCareerOverlayVisible] = useState(false);
+  const [endGameOverlayVisible, setEndGameOverlayVisible] = useState(false);
   
   useEffect(() => {
-    if (statCtx.stage >= 3) {
-      setOverlayVisible(true);
+    if (statCtx.stage == 3) {
+      setSelectCareerOverlayVisible(true);
     } else {
-      setOverlayVisible(false);
+      setSelectCareerOverlayVisible(false);
     }
   }, [statCtx.stage]);
-
-  const closeOverlay = () => {
-    setOverlayVisible(false);
+  
+  const closeSelectCareerOverlay = () => {
+    setSelectCareerOverlayVisible(false);
   };
+  const endGame = ()=>{
+    setEndGameOverlayVisible(true);
+  }
+  const closeEndGameOverlay = ()=>{
+    setEndGameOverlayVisible(false);
+  }
 
   return (
     <>
       <UserInfo />
       <LogInfo />
-      <LifeProgress />
+      <LifeProgress 
+        endGame = {endGame}/>
+      <EndGame
+        visible={endGameOverlayVisible}
+        onClose={closeEndGameOverlay}/>
       <CareerSelection 
-        visible={overlayVisible} 
-        onClose={closeOverlay}
-         />
+        visible={selectCareerOverlayVisible} 
+        onClose={closeSelectCareerOverlay}
+        />
     </>
   );
 };

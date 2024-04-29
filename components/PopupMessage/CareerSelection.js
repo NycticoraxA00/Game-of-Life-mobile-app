@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity} from 'react-native';
+import { View, Text, TouchableOpacity, Alert} from 'react-native';
 import { Overlay } from 'react-native-elements';
 import { COLOR } from '../../util/color';
 import Button from'../UI/Button';
 import { StatContext } from '../../store/stat-context';
 import { CareerOption } from '../../constant/career-path';
 import { LogContext } from '../../store/log-context';
+import IconButton from '../UI/IconButton';
 const CareerSelection = ({ visible, onClose}) => {
   const [careersAvailable, setCareersAvailable]=useState([]);
   const statCtx = useContext(StatContext);
@@ -33,12 +34,40 @@ const CareerSelection = ({ visible, onClose}) => {
 
     updateCareersAvailable();
   }, [statCtx]);
+  let careersAvailableText;
+  let content;
+  if (careersAvailable.length == 0) {
+    careersAvailableText = 'None'
+    content = (
+      <View style={styles.footer}>
+        <IconButton
+          icon="arrow-circle-left"
+          size={50}
+          color={COLOR.darkGrey}
+          onPress={closePopupMessage}
+        />
+      </View>
+    )
+  } else {
+    careersAvailableText = ''
+    content = (
+      careersAvailable.map((career, index) => (
+        <>
+        <Button 
+          key={index} 
+          name={career}
+          onPress = {()=>careerSelectionHandler(career)}/>
+        </>
+      ))
+      )
+  }
   const careerSelectionHandler=(career)=>{
     statCtx.determineCareerPath(career);
     logCtx.detectAction('You choose the career path:', career);
     onClose(); 
   }
   const closePopupMessage = () => {
+    Alert.alert('Are you sure you do not want to pcik your career')
     onClose(); 
   };
 
@@ -46,17 +75,9 @@ const CareerSelection = ({ visible, onClose}) => {
     <Overlay isVisible={visible}>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>You have finished you education</Text>
-        <Text style={styles.text}>Career path available:</Text>
+        <Text style={styles.text}>Career path available: {careersAvailableText}</Text>
       </View>
-      
-      {careersAvailable.map((career, index) => (
-        <>
-        <Button 
-          key={index} 
-          name={career}
-          onPress = {()=>careerSelectionHandler(career)}/>
-        </>
-      ))}
+      {content}
     </Overlay>
     
   );
@@ -76,6 +97,10 @@ const styles = {
   text:{
     fontSize:20,
     textAlign:'center',
+  },
+  footer: {
+    alignItems: "center",
+    justifyContent: "center",
   },
 };
 
