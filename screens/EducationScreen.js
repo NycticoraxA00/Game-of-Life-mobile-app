@@ -9,6 +9,7 @@ import { useContext } from "react";
 import { StatContext } from "../store/stat-context";
 import { SubjectContext } from "../store/subject-context";
 import AvailableEnergy from "../components/UI/AvailableEnergy";
+import { color } from "react-native-elements/dist/helpers";
 
 const Stack = createNativeStackNavigator();
 const EducationOverview = () => {
@@ -41,6 +42,7 @@ const EducationOverview = () => {
         <>
           <AvailableEnergy/>
           <Text style={styles.text}>Current Life Stage Education stats</Text>
+          <Text style={styles.subText}>Hint: Math is crucial for any IT career path</Text>
         </>
       )}
       <ScrollView style={styles.subjectContainer}>
@@ -142,6 +144,13 @@ const styles = {
     borderBottomWidth: 1,
     borderBottomColor: COLOR.darkGrey,
     paddingBottom: 20,
+  },
+  subText: {
+    textAlign: "center",
+    marginHorizontal: 30,
+    fontSize: 15,
+    paddingBottom: 20,
+    color:COLOR.orange
   },
   textA: {
     textAlign: "center",

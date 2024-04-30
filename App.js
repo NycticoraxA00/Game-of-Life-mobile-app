@@ -127,9 +127,8 @@ const Navigation = ()=>{
   return(
     <NavigationContainer>
         <StatusBar style = 'light'/>
-        {/* {!authCtx.isAuthenticated && <AuthenticationView/>}
-        {authCtx.isAuthenticated && <PlayView/>} */}
-        <PlayView/>
+        {!authCtx.isAuthenticated && <AuthenticationView/>}
+        {authCtx.isAuthenticated && <PlayView/>}
     </NavigationContainer>
   )
 }
@@ -142,7 +141,7 @@ const Root = ()=>{
         if(storedToken) {
             authCtx.authenticate(storedToken);
         } else {
-            // Alert.alert("No stored token found")
+            Alert.alert("No stored token found")
         }
         setIsLoginAgain(false);
     }

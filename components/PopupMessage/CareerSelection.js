@@ -14,19 +14,25 @@ const CareerSelection = ({ visible, onClose}) => {
   useEffect(() => {
     const updateCareersAvailable = () => {
       const updatedCareers = [];
-      if (statCtx.getSubjectCredits('math') >= 0) {
+      if (statCtx.getSubjectCredits('math') >= 6000 &&
+          statCtx.getSubjectCredits('science') >= 6000) 
+      {
         updatedCareers.push(CareerOption[0]);
       }
-      if (statCtx.getSubjectCredits('math') >= 0) {
+      if (statCtx.getSubjectCredits('math') >= 9000 &&
+      statCtx.getSubjectCredits('science') >= 3000) {
         updatedCareers.push(CareerOption[1]);
       }
-      if (statCtx.getSubjectCredits('math') >= 0) {
+      if (statCtx.getSubjectCredits('social') >= 6000 &&
+      statCtx.getSubjectCredits('math') >= 6000) {
         updatedCareers.push(CareerOption[2]);
       }
-      if (statCtx.getSubjectCredits('math') >= 0) {
+      if (statCtx.getSubjectCredits('math') >= 3000 &&
+      statCtx.getSubjectCredits('social') >= 9000) {
         updatedCareers.push(CareerOption[3]);
       }
-      if (statCtx.getSubjectCredits('math') >= 0) {
+      if (statCtx.getSubjectCredits('math') >= 3000 &&
+      statCtx.getSubjectCredits('art') >= 9000) {
         updatedCareers.push(CareerOption[4]);
       }
       setCareersAvailable(updatedCareers);

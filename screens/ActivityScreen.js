@@ -7,9 +7,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ActivityChoices from './sub-screens/Activity/ActivityChoices';
 import AvailableEnergy from '../components/UI/AvailableEnergy';
 import CurrentActOptions from './sub-screens/Activity/CurrentActOptions';
+import { useContext } from 'react';
+import { StatContext } from '../store/stat-context';
 
 const Stack = createNativeStackNavigator();
 const ActivityOverview=()=>{
+    const statCtx = useContext(StatContext);
     const navigation = useNavigation();
     const toCurrentActOptions =(actType)=>{
         navigation.navigate('Current Act Options',{actType})
@@ -37,9 +40,14 @@ const ActivityOverview=()=>{
                 <Button 
                     name={'Exercise'}
                     onPress={()=>toActivityChoices('Exercise')}/>
-                <Button 
+                {statCtx.stage>=4?(
+                <View style={styles.retired}>
+                    <Text style={styles.retiredText}>You have retired, learning is unavailable</Text>
+                </View>):(
+                    <Button 
                     name={'Learn new skill'}
                     onPress={()=>toActivityChoices('Skill')}/>
+                )}
             </View>
         </View>
     )
@@ -86,5 +94,14 @@ const styles = {
     activityChoices:{
         marginHorizontal:'5%',
     },
+    retired:{
+        justifyContents:'center',
+        alignItems:'center'
+    },
+    retiredText:{
+        fontSize:18,
+        color:COLOR.orange,
+        margin:12,
+    }
 }
 export default ActivityScreen;

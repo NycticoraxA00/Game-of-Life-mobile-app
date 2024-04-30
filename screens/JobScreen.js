@@ -10,6 +10,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useContext } from 'react';
 import { StatContext } from '../store/stat-context';
 import AvailableEnergy from '../components/UI/AvailableEnergy';
+import { color } from 'react-native-elements/dist/helpers';
 
 
 const Stack = createNativeStackNavigator();
@@ -34,18 +35,27 @@ const JobOverview=()=>{
                 jobType={'Freelancer'}
                 onPress={()=>toCurrentJobOptions('Freelancer')}/>
             <AvailableEnergy/>
-            <Text style={styles.label}>Job Opportunity</Text>
-            <View style={styles.jobOpportunity}>
-                <Button 
-                    name={'Part-time Job'}
-                    onPress={()=>toJobOpportunity('Part-time')}/>
-                <Button 
-                    name={'Full-time Job'}
-                    onPress={()=>toJobOpportunity('Full-time')}/>
-                <Button 
-                    name={'Freelancer'}
-                    onPress={()=>toJobOpportunity('Freelancer')}/>
+            
+            {statCtx.stage<4?(
+                <>
+                <Text style={styles.label}>Job Opportunity</Text>
+                <View style={styles.jobOpportunity}>
+                    <Button 
+                        name={'Part-time Job'}
+                        onPress={()=>toJobOpportunity('Part-time')}/>
+                    <Button 
+                        name={'Full-time Job'}
+                        onPress={()=>toJobOpportunity('Full-time')}/>
+                    <Button 
+                        name={'Freelancer'}
+                        onPress={()=>toJobOpportunity('Freelancer')}/>
+                </View>
+                </>
+            ):(
+                <View style={styles.retired}>
+                <Text style={styles.retiredText}>You have retired, enjoy your life now</Text>
             </View>
+            )}            
         </View>
     )
 }
@@ -91,5 +101,14 @@ const styles = {
     jobOpportunity:{
         marginHorizontal:'5%',
     },
+    retired:{
+        justifyContents:'center',
+        alignItems:'center'
+    },
+    retiredText:{
+        fontSize:20,
+        color:COLOR.orange,
+        margin:12,
+    }
 }
 export default JobScreen;

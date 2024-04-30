@@ -60,6 +60,7 @@ const LifeProgress = ({endGame}) => {
       statCtx.quitAct('Skill');
     }
     if(statCtx.stage==2 && statCtx.week+numb>=625){
+
       logCtx.addNewStatChangeLog('You have finished education')
       statCtx.adjustEnergy(
         statCtx.energy+ 
@@ -72,6 +73,23 @@ const LifeProgress = ({endGame}) => {
       if(statCtx.getSubjectCredits("language")+ subjectCtx.getSubjectEnergy("language")*numb>=6000){
         statCtx.enableCanWorkAbroad();
         logCtx.addNewStatChangeLog('You has been qualfied to work abroad')}
+    }
+    if(statCtx.stage==3 && statCtx.week+numb>=2592){
+      let energyRegain=0;
+      if ( statCtx.jobs.fullTimeJob !== '') {
+        energyRegain += fullTimeJob.cost;
+        statCtx.quitJob('Full-time');
+      }
+      if (statCtx.jobs.partTimeJob !== '') {
+        energyRegain += partTimeJob.cost;
+        statCtx.quitJob('Part-time');
+      }
+      if (statCtx.jobs.freeLancer !== '') {
+        energyRegain += freelancerJob.cost;
+        statCtx.quitJob('Freelancer');
+      }
+      statCtx.adjustEnergy(statCtx.energy + energyRegain)
+      logCtx.addNewStatChangeLog('You have retired')
     }
 
     if(statCtx.energy<0){

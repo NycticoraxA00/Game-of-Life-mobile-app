@@ -21,9 +21,9 @@ export const StatContext = createContext({
   }],
   careerPath:'',
   jobs:[{
-    partTimeJob:'jid',
-    fullTimeJob:'jid',
-    freeLancer:'jid',
+    partTimeJob:'',
+    fullTimeJob:'',
+    freeLancer:'',
   }],
   canWorkAbroad:false,
   acts:[{
@@ -64,7 +64,7 @@ const StatContextProvider = ({ children }) => {
     const [stage, setStage] = useState(1);
     const [health, setHealth] = useState(100);
     const [energy, setEnergy] = useState(100);
-    const [money, setMoney] = useState(900000000000000);
+    const [money, setMoney] = useState(0);
     const [charm, setCharm] = useState(0);
     const [skills, setSkills] = useState([]);
     const [beginLearnignCurrentSkillWeek,setbeginLearnignCurrentSkillWeek] = useState(0);

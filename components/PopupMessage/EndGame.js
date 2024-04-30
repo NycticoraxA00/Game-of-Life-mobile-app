@@ -16,8 +16,8 @@ const EndGame = ({ visible, onClose }) => {
     { name: 'Buy a house', cost: 20000,achieved: false },
     { name: 'Marriage', cost: 50000,achieved: false },
     { name: 'Child Expense', cost: 100000,achieved: false },
-    { name: 'Started up a business', cost: 10000000,achieved: false },
-    { name: 'Founded a company', cost: 100000000,achieved: false },
+    { name: 'Started up a business', cost: 1000000,achieved: false },
+    { name: 'Founded a company', cost: 5000000,achieved: false },
   ];
   const [achievedLifeGoals, setAchievedLifeGoals] = useState(initialLifeGoals);
   const statCtx = useContext(StatContext);
@@ -44,7 +44,12 @@ const EndGame = ({ visible, onClose }) => {
     subjectCtx.resetGame();
     onClose();
   };
+  const logoutHandler = ()=>{
+    authCtx.logout;
+  }
+  const savehighScoreHandler=()=>{
 
+  }
   return (
     <Overlay isVisible={visible}>
       <View style={styles.titleContainer}>
@@ -64,7 +69,7 @@ const EndGame = ({ visible, onClose }) => {
       </View>
       <View style={styles.footer}>
         {achievedLifeGoals.map((goal, index) => (
-          <LifeGoal k
+          <LifeGoal 
             key={index} 
             name={goal.name} 
             cost={goal.cost}
@@ -82,12 +87,12 @@ const EndGame = ({ visible, onClose }) => {
         <TouchableOpacity onPress={resetGame}>
           <Text style={styles.switch}>Restart</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={authCtx.logout}>
+        <TouchableOpacity onPress={logoutHandler}>
           <Text style={styles.switch}>Log out</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.saveButton}>
-        <TouchableOpacity onPress={''}>
+        <TouchableOpacity onPress={savehighScoreHandler}>
           <Text style={styles.switch}>Save your highscore</Text>
         </TouchableOpacity>
       </View>
