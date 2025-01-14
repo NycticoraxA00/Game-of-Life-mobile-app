@@ -1,4 +1,5 @@
-![3 - Main Screen](https://github.com/user-attachments/assets/2cebf344-8003-4db9-ad49-faeb0722116f)1. Install Expo globally: If you haven't already, install Expo CLI globally on your machine. 
+![3 - Main Screen](https://github.com/user-attachments/assets/2cebf344-8003-4db9-ad49-faeb0722116f)
+1. Install Expo globally: If you haven't already, install Expo CLI globally on your machine. 
    Open a terminal and run the following command: npm install -g expo-cli
 2. Navigate to the project directory: Open a terminal and navigate to the root directory of the app.
 3. Install project dependencies: Since you don't have the node_modules folder, you need to install the project dependencies. 
